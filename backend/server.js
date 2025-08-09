@@ -3,17 +3,13 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
 
-// Load environment variables
 dotenv.config();
 
-// Initialize Express app
 const app = express();
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Connect to MongoDB
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/tickethub';
 // Ensure database name is specified in the connection string
 const connectionString = MONGO_URI.endsWith('/') ? `${MONGO_URI}tickethub` : MONGO_URI;
@@ -24,8 +20,6 @@ mongoose.connect(connectionString, {
 })
   .then(() => {
     console.log('MongoDB connected successfully');
-    // Initialize database with sample data if needed
-    // This is optional but can help ensure the database is properly set up
   })
   .catch(err => {
     console.error('MongoDB connection error:', err);
@@ -33,11 +27,9 @@ mongoose.connect(connectionString, {
   });
 
 
-// Define routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/tickets', require('./routes/tickets'));
 
-// Base route
 app.get('/', (req, res) => {
   res.send('TicketHub API is running');
 });
